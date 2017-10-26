@@ -1,41 +1,68 @@
 if ($('[data-ac-repeater]').length > 0){
+    var repeater = {
+        'clones' : []
+    }
 
-                var cloneCount = 1;
-                var cloneNames = []
-                var element = $('[data-ac-repeater]')
-                var repeaterText = element.attr('data-ac-repeater-text') ? element.attr('data-ac-repeater-text') : 'Repeat fields';
-                var adder = '<span id="acrAdder">'+repeaterText+'</span>'
+    $('[data-ac-repeater]').each(function (i) {
 
-                element.prepend(adder);
+        repeater.clones.push($(this));
 
-                var clone = element.clone();
+        repeater.clones[i].settings = 'tester' + i;
 
-                $(document).on('click', '#acrAdder', function () {
-                    $(this).remove();
+        var element = $(this);
+        var repeaterText = element.attr('data-ac-repeater-text') ? element.attr('data-ac-repeater-text') : 'Repeat fields';
+        var adderId = 'acAdder' + i;
 
-                    if(cloneNames.length == 0){
-                        console.log('cn empty')
-                        $('input',clone).each(function () {
-                            cloneNames.push($(this).attr('name'));
-                        })
-                    }
-
-                    console.log(cloneNames);
-
-                    $('input',clone).each(function (i) {
-
-                        var cloneName =  cloneNames[i] + '-' + cloneCount;
-
-                        $(this).attr('name', cloneName)
-                    })
+        var settings = {
+            'cloneCount' : 1,
+            'cloneNames' : [],
+            'element' : element,
+            'repeaterText' : repeaterText,
+            'adderId' : adderId,
+            'adder' : '<span id="'+adderId+'">'+repeaterText+'</span>'
+        }
 
 
-                    element.after(clone);
-                    cloneCount = cloneCount + 1
+        repeater.clones[i].settings = settings;
 
-                    element = clone;
-                    clone = $(clone).clone();
+        var cloneSettings = repeater.clones[i].settings;
 
+        console.log(cloneSettings.adder)
+
+        element.prepend(cloneSettings.adder);
+
+        var clone = cloneSettings.element.clone();
+
+        $(document).on('click', '#'+adderId, function () {
+            $(this).remove();
+
+            if(cloneSettings.cloneNames.length == 0){
+                console.log('cn empty')
+                $('input',clone).each(function () {
+                    cloneSettings.cloneNames.push($(this).attr('name'));
                 })
+            }
 
-            };
+            console.log(cloneSettings.cloneNames);
+
+            $('input',clone).each(function (i) {
+
+                var cloneName =  cloneSettings.cloneNames[i] + '-' + cloneSettings.cloneCount;
+
+                $(this).attr('name', cloneName)
+            })
+
+
+            cloneSettings.element.after(clone);
+            cloneSettings.cloneCount = cloneSettings.cloneCount + 1
+
+            cloneSettings.element = clone;
+            clone = $(clone).clone();
+
+        });
+
+    });
+
+
+
+};
