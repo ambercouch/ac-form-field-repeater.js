@@ -1,25 +1,41 @@
-            if ($('[data-ac-repeater]').length > 0){
+if ($('[data-ac-repeater]').length > 0){
+
                 var cloneCount = 1;
-                var adder = '<span id="acrAdder">Repeat fields</span>'
+                var cloneNames = []
                 var element = $('[data-ac-repeater]')
-                var clone = element.clone();
+                var repeaterText = element.attr('data-ac-repeater-text') ? element.attr('data-ac-repeater-text') : 'Repeat fields';
+                var adder = '<span id="acrAdder">'+repeaterText+'</span>'
+
                 element.prepend(adder);
 
+                var clone = element.clone();
+
                 $(document).on('click', '#acrAdder', function () {
-                    console.log('clicker');
-                    $('input',clone).each(function () {
-                        var cloneName = $(this).attr('name');
-                        var cloneNameNew = cloneName + cloneCount;
-                        $(this).attr('name', cloneNameNew)
+                    $(this).remove();
 
+                    if(cloneNames.length == 0){
+                        console.log('cn empty')
+                        $('input',clone).each(function () {
+                            cloneNames.push($(this).attr('name'));
+                        })
+                    }
+
+                    console.log(cloneNames);
+
+                    $('input',clone).each(function (i) {
+
+                        var cloneName =  cloneNames[i] + '-' + cloneCount;
+
+                        $(this).attr('name', cloneName)
                     })
-                    element.after(clone);
-                        console.log(clone);
-                    //element.after(clone);
-                })
-                console.log('repeater')
 
-            }else {
-                console.log('no repeater')
+
+                    element.after(clone);
+                    cloneCount = cloneCount + 1
+
+                    element = clone;
+                    clone = $(clone).clone();
+
+                })
 
             };
