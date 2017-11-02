@@ -15,6 +15,9 @@
             var repeaterText = elementToRepeat.attr('data-ac-repeater-text') ? elementToRepeat.attr('data-ac-repeater-text') : 'Repeat fields';
             var adderId = 'acAdder' + i;
             var adder = '<button id="'+adderId+'">'+repeaterText+'</button>'
+            var adderPosition =  elementToRepeat.attr('data-ac-repeater-position') ? elementToRepeat.attr('data-ac-repeater-position') : 'prepend';
+
+            console.log('pos = ' + adderPosition );
 
             //add the element to the list of clones
             repeater.clones.push(elementToRepeat);
@@ -25,7 +28,8 @@
                 'element' : elementToRepeat,
                 'repeaterText' : repeaterText,
                 'adderId' : adderId,
-                'adder' : adder
+                'adder' : adder,
+                'adderPosition' : adderPosition
             }
 
             //Save the setting for this element in the repeater object
@@ -33,8 +37,12 @@
 
             var cloneSettings = repeater.clones[i].settings;
 
-            //Prepend the adder markup to the element in the document
-            elementToRepeat.prepend(cloneSettings.adder);
+            //Append the adder markup to the element in the document
+            if (cloneSettings.adderPosition !== 'before'){
+                elementToRepeat.append(cloneSettings.adder);
+            }else {
+                elementToRepeat.prepend(cloneSettings.adder);
+            }
 
             //Get the current element from the repeater object and clone it
             var clone = cloneSettings.element.clone();
@@ -44,18 +52,27 @@
                 //Remove the adder
                 $(this).remove();
 
+
+
                 //if we don't have a list of name attributes for this clone
                 if(cloneSettings.cloneNames.length == 0){
                     //create a list of input names from the clone
                     $('input',clone).each(function () {
                         cloneSettings.cloneNames.push($(this).attr('name'));
                     })
+                    //update the current input names
+                    $('input', cloneSettings.element).each(function(){
+                        $(this).attr('name', $(this).attr('name') + '-' + cloneSettings.cloneCount )
+                    });
+
+                    cloneSettings.cloneCount = cloneSettings.cloneCount + 1;
                 }
 
                 //Updated the name attribute on each input element for the clone
                 $('input',clone).each(function (i) {
 
                     var cloneName =  cloneSettings.cloneNames[i] + '-' + cloneSettings.cloneCount;
+                    //var cloneName =  'row[row'+ cloneSettings.cloneCount +'][' +cloneSettings.cloneNames[i] + ']'
 
                     $(this).attr('name', cloneName)
                 })
