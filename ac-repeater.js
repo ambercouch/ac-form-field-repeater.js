@@ -16,8 +16,9 @@
             var adderId = 'acAdder' + i;
             var adder = '<button id="'+adderId+'">'+repeaterText+'</button>'
             var adderPosition =  elementToRepeat.attr('data-ac-repeater-position') ? elementToRepeat.attr('data-ac-repeater-position') : 'prepend';
-
+            var arrayName = elementToRepeat.attr('data-ac-repeater') ? elementToRepeat.attr('data-ac-repeater') : null;
             console.log('pos = ' + adderPosition );
+            console.log('arrayName = ' + arrayName );
 
             //add the element to the list of clones
             repeater.clones.push(elementToRepeat);
@@ -29,7 +30,8 @@
                 'repeaterText' : repeaterText,
                 'adderId' : adderId,
                 'adder' : adder,
-                'adderPosition' : adderPosition
+                'adderPosition' : adderPosition,
+                'arrayName' : arrayName
             }
 
             //Save the setting for this element in the repeater object
@@ -52,17 +54,21 @@
                 //Remove the adder
                 $(this).remove();
 
-
-
                 //if we don't have a list of name attributes for this clone
                 if(cloneSettings.cloneNames.length == 0){
                     //create a list of input names from the clone
                     $('input',clone).each(function () {
                         cloneSettings.cloneNames.push($(this).attr('name'));
                     })
+
                     //update the current input names
-                    $('input', cloneSettings.element).each(function(){
-                        $(this).attr('name', $(this).attr('name') + '-' + cloneSettings.cloneCount )
+                    $('input', cloneSettings.element).each(function()
+                    {
+                        if (cloneSettings.arrayName === null) {
+                            $(this).attr('name', $(this).attr('name') + '-' + cloneSettings.cloneCount);
+                        }else {
+                            $(this).attr('name', cloneSettings.arrayName + '[' + cloneSettings.arrayName + cloneSettings.cloneCount + ']' + $(this).attr('name'));
+                        }
                     });
 
                     cloneSettings.cloneCount = cloneSettings.cloneCount + 1;
@@ -70,9 +76,13 @@
 
                 //Updated the name attribute on each input element for the clone
                 $('input',clone).each(function (i) {
+                    var cloneName;
 
-                    var cloneName =  cloneSettings.cloneNames[i] + '-' + cloneSettings.cloneCount;
-                    //var cloneName =  'row[row'+ cloneSettings.cloneCount +'][' +cloneSettings.cloneNames[i] + ']'
+                    if (cloneSettings.arrayName === null){
+                        cloneName   =  cloneSettings.cloneNames[i] + '-' + cloneSettings.cloneCount;
+                    }else{
+                        cloneName =  cloneSettings.arrayName + '['+ cloneSettings.arrayName + cloneSettings.cloneCount +'][' +cloneSettings.cloneNames[i] + ']'
+                    }
 
                     $(this).attr('name', cloneName)
                 })
