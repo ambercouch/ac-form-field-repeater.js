@@ -6,7 +6,7 @@
 
 ` data-ac-repeater `
 
-```
+```html
 <div class='some-repeating-fields' data-ac-repeater >
 <label>Some label</label>
 <input value='' name="my-input">
@@ -23,7 +23,7 @@ Input names will be appended with a dash and a count integer.
 
 ` data-ac-repeater="myrow"`
 
-```
+```html
 <div class='some-repeating-fields' data-ac-repeater="myrow" >
 <label>Some label</label>
 <input value='' name="my-input">
