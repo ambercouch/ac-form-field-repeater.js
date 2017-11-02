@@ -1,14 +1,23 @@
-# ac-repeater
+# AC Form Field Repeater
 
-## The markup
+## Examples
+
+### Repeat some fields
+
+` data-ac-repeater `
 
 ```
-<div class='some-repeating-fields' date=ac-repeater data-ac-repeater-text="Add a Row" >
+<div class='some-repeating-fields' data-ac-repeater >
 <label>Some label</label>
 <input value='' name="my-input">
 </div>
 ```
+An element with the data attribute ```data-ac-repeater``` will be repeated.
+Input names will be appended with a dash and a count integer.
 
-An element with the data att ```date=ac-repeater``` will be repeated.
+`name="my-input-1"`
+
+`name="my-input-2"`
+
 
 If the element has an additional data att ```date=ac-repeater-text``` the value will be used as the add button text.
