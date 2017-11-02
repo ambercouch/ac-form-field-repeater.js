@@ -1,4 +1,12 @@
-    ;(function( $ ){
+/*!
+ * AC Form Field repeater 0.0.1
+ *
+ * Copyright 2017, Richie Arnold and AmberCouch - http://ambercouch.co.uk
+ * Released under the WTFPL license - http://sam.zoy.org/wtfpl/
+ *
+ */
+
+;(function( $ ){
     //Check for elements that need to repeat
     if ($('[data-ac-repeater]').length > 0){
 
