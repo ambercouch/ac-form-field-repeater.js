@@ -1,12 +1,14 @@
 # AC Form Field Repeater
 
+[Can jQuery repeate form fields?](http://formfieldrepeater.com)
+
 ## Examples
 
 ### Repeat some fields
 
 ` data-ac-repeater `
 
-```html
+```html	
 <div class='some-repeating-fields' data-ac-repeater >
 <label>Some label</label>
 <input value='' name="my-input">
@@ -29,7 +31,7 @@ Input names will be appended with a dash and a count integer.
 <input value='' name="my-input">
 </div>
 ```
-
+	
 An element with the data attribute ```data-ac-repeater```   and a value of any string ```data-ac-repeater="myrow"```  will be repeated as a post array.
 Input names use the value of the data attributes to create an array.
 
