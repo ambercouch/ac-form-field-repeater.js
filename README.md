@@ -2,6 +2,8 @@
 
 [Can jQuery repeate form fields?](http://formfieldrepeater.com)
 
+![logo](http://formfieldrepeater.com/wp-content/uploads/2017/11/form-field-repeater.svg)
+
 ## Examples
 
 ### Repeat some fields
