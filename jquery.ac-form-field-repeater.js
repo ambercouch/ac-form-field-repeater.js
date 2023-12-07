@@ -66,12 +66,12 @@
                 if(cloneSettings.cloneNames.length == 0){
 
                     //create a list of form element names from the clone
-                    $('input, select, textarea',clone).each(function () {
+                    $('[name]',clone).each(function () {
                         cloneSettings.cloneNames.push($(this).attr('name'));
                     })
 
                     // Update name attributes for all form elements in the clone
-                    $('input, select, textarea', clone).each(function (i) {
+                    $('[name]', clone).each(function (i) {
                         var cloneName;
 
                         if (cloneSettings.arrayName === null){
@@ -87,7 +87,7 @@
                 }
 
                 //Updated the name attribute on each input element for the clone
-                $('input',clone).each(function (i) {
+                $('[name]',clone).each(function (i) {
                     var cloneName;
 
                     if (cloneSettings.arrayName === null){
