@@ -64,19 +64,23 @@
 
                 //if we don't have a list of name attributes for this clone
                 if(cloneSettings.cloneNames.length == 0){
-                    //create a list of input names from the clone
-                    $('input',clone).each(function () {
+
+                    //create a list of form element names from the clone
+                    $('input, select, textarea',clone).each(function () {
                         cloneSettings.cloneNames.push($(this).attr('name'));
                     })
 
-                    //update the current input names
-                    $('input', cloneSettings.element).each(function()
-                    {
-                        if (cloneSettings.arrayName === null) {
-                            $(this).attr('name', $(this).attr('name') + '-' + cloneSettings.cloneCount);
-                        }else {
-                            $(this).attr('name', cloneSettings.arrayName + '[' + cloneSettings.arrayName + cloneSettings.cloneCount + ']' +'[' +  $(this).attr('name') + ']');
+                    // Update name attributes for all form elements in the clone
+                    $('input, select, textarea', clone).each(function (i) {
+                        var cloneName;
+
+                        if (cloneSettings.arrayName === null){
+                            cloneName   =  cloneSettings.cloneNames[i] + '-' + cloneSettings.cloneCount;
+                        }else{
+                            cloneName =  cloneSettings.arrayName + '[' + cloneSettings.cloneCount + '][' + cloneSettings.cloneNames[i] + ']'
                         }
+
+                        $(this).attr('name', cloneName);
                     });
 
                     cloneSettings.cloneCount = cloneSettings.cloneCount + 1;
@@ -112,4 +116,4 @@
 
 
     };
-    })( window.jQuery);
+})( window.jQuery);
